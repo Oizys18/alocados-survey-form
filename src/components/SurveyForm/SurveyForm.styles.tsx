@@ -21,18 +21,6 @@ export const Title = styled.div`
   align-self: flex-start;
 `;
 
-export const Input = styled.input`
-  all: unset;
-  margin: 16px 0;
-  padding: 17px 16px 17px 14px;
-  color: ${({ theme }) => theme.color.white};
-
-  font-weight: 400;
-  font-size: 15px;
-  background-color: ${({ theme }) => theme.color.dark.shade100};
-  border-radius: 8px;
-`;
-
 export const Question = styled.div`
   width: 100%;
   display: flex;

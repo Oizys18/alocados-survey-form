@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.button<{ $short: boolean }>`
+export const Button = styled.button<{ $short: boolean }>`
   all: unset;
   cursor: pointer;
   min-width: 79px;
+  margin: 16px 0;
   width: ${({ $short }) => ($short ? "79px" : "100%")};
-
   height: ${({ $short }) => ($short ? "40px" : "56px")};
-  border-radius: 8px;
+  border-radius: ${({ $short }) => ($short ? "8px" : "12px")};
 
   display: flex;
   justify-content: center;
@@ -20,4 +20,8 @@ export const Wrapper = styled.button<{ $short: boolean }>`
 
   color: ${({ theme }) => theme.color.white};
   background-color: ${({ color }) => color};
+  :active {
+    opacity: 0.6;
+  }
+  transition: all 0.1s ease-in-out;
 `;

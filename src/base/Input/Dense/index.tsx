@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import * as SC from "./Dense.styles";
 
 type InputProps = {
@@ -8,18 +10,22 @@ type InputProps = {
   placeholder?: string;
 };
 
-const Dense = ({ type, name, value, onChange, placeholder }: InputProps) => {
+const Dense = memo(function Dense({
+  type,
+  name,
+  value,
+  onChange,
+  placeholder,
+}: InputProps) {
   return (
-    <>
-      <SC.Input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
-    </>
+    <SC.Input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+    />
   );
-};
+});
 
 export default Dense;

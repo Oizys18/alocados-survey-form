@@ -1,5 +1,7 @@
-import * as SC from "./Input.styles";
+import { memo } from "react";
+
 import Dense from "./Dense";
+import * as SC from "./Input.styles";
 
 type InputProps = {
   type?: string;
@@ -7,32 +9,26 @@ type InputProps = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  // label?: string;
   placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
 };
 
-const Filled = ({
+const Filled = memo(function Filled({
   type,
   name,
   value,
   onChange,
-  // onFocus,
-  // label,
   placeholder,
-}: InputProps) => {
+}: InputProps) {
   return (
     <SC.Input
       type={type}
       name={name}
       value={value}
       onChange={onChange}
-      // onFocus={onFocus}
       placeholder={placeholder}
     />
   );
-};
+});
 
 const Input = {
   Filled,

@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 
 import Themes from "@base/Theme";
-import { SurveyProvider } from "src/context/SurveyContext";
+import { SurveyProvider } from "@context/SurveyContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

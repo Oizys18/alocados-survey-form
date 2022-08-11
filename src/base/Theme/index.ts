@@ -1,5 +1,5 @@
-import { createGlobalStyle, DefaultTheme, css } from "styled-components";
 import reset from "styled-reset";
+import { createGlobalStyle, DefaultTheme, css } from "styled-components";
 
 const fontsURL = {
   pretendard: {
@@ -29,7 +29,7 @@ const fonts = css`
   **/
 
   /**
-  * pretendard
+  * pretendard font
   **/
 
   @font-face {
@@ -74,9 +74,6 @@ export const GlobalStyle = createGlobalStyle`
   ${fonts}
   html, body, #__next {
     height: 100%;
-
-    /* display: flex; */
-    /* flex-direction: column; */
     font-family: 'pretendard';
     background-color: #131313;
     color:${theme.color.white};

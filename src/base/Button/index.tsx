@@ -1,8 +1,8 @@
-import * as SC from "./Button.styles";
 import Text from "./Text";
+import * as SC from "./Button.styles";
 
 type ButtonProps = {
-  short?: boolean;
+  short?: boolean; // 짧은 버튼?
   name?: string;
   text?: string;
   color?: string;
@@ -11,14 +11,14 @@ type ButtonProps = {
 
 const Block = ({ short, name, text, color, onClick }: ButtonProps) => {
   return (
-    <SC.Wrapper
+    <SC.Button
       $short={short ? true : false}
       name={name}
       color={color}
       onClick={onClick}
     >
       {text}
-    </SC.Wrapper>
+    </SC.Button>
   );
 };
 

@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import styled from "styled-components";
 
 import SurveyForm from "@components/SurveyForm";
 
