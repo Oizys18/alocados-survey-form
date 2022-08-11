@@ -4,16 +4,7 @@ import styled from "styled-components";
 import SurveyForm from "@components/SurveyForm";
 
 const Home: NextPage = () => {
-  return (
-    <StyledHome>
-      <SurveyForm />
-    </StyledHome>
-  );
+  return <SurveyForm />;
 };
 
 export default Home;
-
-const StyledHome = styled.div`
-  min-height: 100%;
-  background-color: ${({ theme }) => theme.color.dark.shade000};
-`;

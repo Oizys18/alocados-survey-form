@@ -1,16 +1,30 @@
+import * as SC from "./Button.styles";
+import Text from "./Text";
+
 type ButtonProps = {
-  type?: string;
-  // size: "Small" | "Medium" | "Large";
+  short?: boolean;
   name?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  text?: string;
+  color?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
-const Button = (props: ButtonProps) => {
+
+const Block = ({ short, name, text, color, onClick }: ButtonProps) => {
   return (
-    <>
-      <button>Button</button>
-    </>
+    <SC.Wrapper
+      $short={short ? true : false}
+      name={name}
+      color={color}
+      onClick={onClick}
+    >
+      {text}
+    </SC.Wrapper>
   );
+};
+
+const Button = {
+  Block,
+  Text,
 };
 
 export default Button;

@@ -7,7 +7,7 @@ type InputProps = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  label?: string;
+  // label?: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
@@ -18,22 +18,19 @@ const Filled = ({
   name,
   value,
   onChange,
-  onFocus,
-  label,
+  // onFocus,
+  // label,
   placeholder,
 }: InputProps) => {
   return (
-    <>
-      {label && <SC.Label htmlFor={name}>{label}</SC.Label>}
-      <SC.Input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        onFocus={onFocus}
-        placeholder={placeholder}
-      />
-    </>
+    <SC.Input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      // onFocus={onFocus}
+      placeholder={placeholder}
+    />
   );
 };
 

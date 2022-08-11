@@ -60,6 +60,7 @@ export const theme: DefaultTheme = {
     dark: {
       shade000: "#2A3249",
       shade100: "#313C57",
+      shade200: "#404E71",
       shade600: "#C8CCD7",
       primaryFont: "#AB9BFF",
       primary100: "#6B4FFF",
@@ -71,9 +72,11 @@ export const theme: DefaultTheme = {
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   ${fonts}
-
   html, body, #__next {
     height: 100%;
+
+    /* display: flex; */
+    /* flex-direction: column; */
     font-family: 'pretendard';
     background-color: #131313;
     color:${theme.color.white};
