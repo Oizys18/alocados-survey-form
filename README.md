@@ -3,6 +3,7 @@
 ## 설치 및 실행
 - `yarn install`
 - `yarn build && yarn start`
+- `http://localhost:3000` 접속 
 
 ## 기술스택 및 사용이유
 - NextJS 
