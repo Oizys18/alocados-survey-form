@@ -1,17 +1,22 @@
-import { useState, useCallback } from "react";
-import { useSurveyDispatch, useSurveyState } from "@context/SurveyContext";
+import React, { useState, useCallback, useEffect } from "react";
+import {
+  SurveyState,
+  useSurveyDispatch,
+  useSurveyState,
+} from "@context/SurveyContext";
 
 import * as SC from "./SurveyForm.styles";
 import { Input, Button, Divider } from "@base";
+import SurveyQuestion from "@components/SurveyQuestion";
 
 const SurveyForm = () => {
   const state = useSurveyState();
   const dispatch = useSurveyDispatch();
 
-  const [formInputs, setFormInputs] = useState({
+  const [formInputs, setFormInputs] = useState<SurveyState>({
     title: "",
     description: "",
-    question: [{ content: "", options: [""] }],
+    questions: [{ content: "", options: [""] }],
   });
 
   const setSurvey = useCallback(
@@ -26,21 +31,21 @@ const SurveyForm = () => {
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      setFormInputs({
-        ...formInputs,
+      setFormInputs((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     },
-    [formInputs]
+    []
   );
 
   const handleQuestionInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, questionIndex: number) => {
       const { name, value } = e.target;
-      setFormInputs({
-        ...formInputs,
-        question: formInputs.question.map((question, qIndex) => {
-          if (qIndex === questionIndex) {
+      setFormInputs((prev) => ({
+        ...prev,
+        questions: prev.questions.map((question, qIndex) => {
+          if (qIndex === questionIndex && question.content !== value) {
             return {
               ...question,
               content: value,
@@ -48,43 +53,42 @@ const SurveyForm = () => {
           }
           return question;
         }),
-      });
+      }));
     },
-    [formInputs]
+    []
   );
 
   const handleOptionInputChange = useCallback(
-    (
-      e: React.ChangeEvent<HTMLInputElement>,
-      questionIndex: Number,
-      optionIndex: Number
-    ) => {
+    (e: React.ChangeEvent<HTMLInputElement>, questionIndex: Number) => {
       const { name, value } = e.target;
-      setFormInputs({
-        ...formInputs,
-        question: formInputs.question.map((question, qIndex) => {
-          if (qIndex === questionIndex) {
+      setFormInputs((prev) => ({
+        ...prev,
+        questions: prev.questions.map((item, itemIndex) => {
+          if (
+            itemIndex === questionIndex &&
+            item.options[Number(name)] !== value
+          ) {
             return {
-              ...question,
-              options: question.options.map((option, oIndex) => {
-                if (oIndex === optionIndex) {
+              ...item,
+              options: item.options.map((option, oIndex) => {
+                if (oIndex === Number(name)) {
                   return value;
                 }
                 return option;
               }),
             };
           }
-          return question;
+          return item;
         }),
-      });
+      }));
     },
-    [formInputs]
+    []
   );
 
   const handleAddQuestion = useCallback(() => {
     setFormInputs({
       ...formInputs,
-      question: [...formInputs.question, { content: "", options: [""] }],
+      questions: [...formInputs.questions, { content: "", options: [""] }],
     });
   }, [formInputs]);
 
@@ -92,7 +96,7 @@ const SurveyForm = () => {
     (questionIndex: Number) => {
       setFormInputs({
         ...formInputs,
-        question: formInputs.question.map((question, qIndex) => {
+        questions: formInputs.questions.map((question, qIndex) => {
           if (qIndex === questionIndex) {
             return {
               ...question,
@@ -110,7 +114,7 @@ const SurveyForm = () => {
     (questionIndex: Number, optionIndex: Number) => {
       setFormInputs({
         ...formInputs,
-        question: formInputs.question.map((question, qIndex) => {
+        questions: formInputs.questions.map((question, qIndex) => {
           if (qIndex === questionIndex) {
             return {
               ...question,
@@ -131,7 +135,7 @@ const SurveyForm = () => {
     setFormInputs({
       title: "",
       description: "",
-      question: [{ content: "", options: [""] }],
+      questions: [{ content: "", options: [""] }],
     });
   }, [resetSurvey]);
 
@@ -150,25 +154,25 @@ const SurveyForm = () => {
     } else if (!formInputs.description) {
       alert("설명을 입력해주세요.");
       return;
-    } else if (!formInputs.question.length) {
+    } else if (!formInputs.questions.length) {
       alert("질문을 최소 한 개 이상 입력해주세요.");
       return;
     } else if (
-      formInputs.question.some((question) => {
+      formInputs.questions.some((question) => {
         return !question.content;
       })
     ) {
       alert("질문 내용을 입력해주세요.");
       return;
     } else if (
-      formInputs.question.some((question) => {
+      formInputs.questions.some((question) => {
         return !question.options.length;
       })
     ) {
       alert("질문 옵션을 최소 한 개 이상 입력해주세요");
       return;
     } else if (
-      formInputs.question.some((question) => {
+      formInputs.questions.some((question) => {
         return question.options.some((option) => {
           return !option;
         });
@@ -198,52 +202,18 @@ const SurveyForm = () => {
           onChange={handleInputChange}
         />
         <Divider />
-        {formInputs.question
-          ? formInputs.question.map((question, questionIndex) => {
+        {formInputs.questions
+          ? formInputs.questions.map((question, questionIndex) => {
               return (
-                <SC.Question key={`question-${questionIndex}`}>
-                  <Input.Filled
-                    placeholder="질문"
-                    value={question.content}
-                    name={questionIndex.toString()}
-                    onChange={(e) =>
-                      handleQuestionInputChange(e, questionIndex)
-                    }
-                  />
-                  {question.options.map((option, optionIndex) => {
-                    return (
-                      <SC.Option key={`option-${questionIndex}-${optionIndex}`}>
-                        <Input.Dense
-                          placeholder="옵션"
-                          value={option}
-                          name={optionIndex.toString()}
-                          onChange={(e) =>
-                            handleOptionInputChange(
-                              e,
-                              questionIndex,
-                              optionIndex
-                            )
-                          }
-                        />
-                        <Button.Block
-                          text="삭제"
-                          short
-                          color="#F72585"
-                          onClick={() =>
-                            handleRemoveOption(questionIndex, optionIndex)
-                          }
-                        />
-                      </SC.Option>
-                    );
-                  })}
-                  <Button.Block
-                    text="옵션 추가"
-                    short
-                    color="#6B4FFF"
-                    onClick={() => handleAddOption(questionIndex)}
-                  />
-                  <Divider />
-                </SC.Question>
+                <SurveyQuestion
+                  key={`question-${questionIndex}`}
+                  question={question}
+                  questionIndex={questionIndex}
+                  handleAddOption={handleAddOption}
+                  handleRemoveOption={handleRemoveOption}
+                  handleOptionInputChange={handleOptionInputChange}
+                  handleQuestionInputChange={handleQuestionInputChange}
+                />
               );
             })
           : null}
@@ -265,4 +235,4 @@ const SurveyForm = () => {
   );
 };
 
-export default SurveyForm;
+export default React.memo(SurveyForm);

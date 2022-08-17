@@ -3,15 +3,15 @@ import React, { useReducer, useContext, createContext, Dispatch } from "react";
 /**
  * store types
  */
-type QuestionType = {
+export type QuestionType = {
   content: string;
   options: string[];
 };
 
-type SurveyState = {
+export type SurveyState = {
   title: string;
   description: string;
-  question: QuestionType[];
+  questions: QuestionType[];
 };
 
 type SurveyAction =
@@ -19,7 +19,7 @@ type SurveyAction =
       type: "SAVE_SURVEY";
       title: string;
       description: string;
-      question: QuestionType[];
+      questions: QuestionType[];
     }
   | { type: "RESET_SURVEY" };
 
@@ -29,7 +29,7 @@ type SurveyDispatch = Dispatch<SurveyAction>;
 const initialState: SurveyState = {
   title: "",
   description: "",
-  question: [{ content: "", options: [""] }],
+  questions: [{ content: "", options: [""] }],
 };
 const SurveyStateContext = createContext<SurveyState>(initialState);
 const SurveyDispatchContext = createContext<SurveyDispatch>(() => null);
@@ -42,7 +42,7 @@ function reducer(state: SurveyState, action: SurveyAction): SurveyState {
         ...state,
         title: action.title,
         description: action.description,
-        question: action.question,
+        questions: action.questions,
       };
     case "RESET_SURVEY":
       return initialState;
@@ -56,7 +56,7 @@ export function SurveyProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, {
     title: "",
     description: "",
-    question: [{ content: "", options: [""] }],
+    questions: [{ content: "", options: [""] }],
   });
 
   return (
